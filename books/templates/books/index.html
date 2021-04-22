@@ -17,13 +17,36 @@
 
 {% block script %}
 <script>
+
+function dialog(message, yesCallback, noCallback) {
+    $('.title').html(message);
+    var dialog = $('#modal_dialog').dialog();
+
+    $('#btnYes').click(function() {
+        dialog.dialog('close');
+        yesCallback();
+    });
+    $('#btnNo').click(function() {
+        dialog.dialog('close');
+        noCallback();
+    });
     function clickFunction(name,id){
-       const res = confirm(`Are you sure you want to delete ${name}?`)
-        if(res){
-            window.location.href = `delete/${id}`;
-        }
-        
+      
+
+    dialog(`Are you sure you want to delete ${name}?`,
+    function() {
+         window.location.href = `delete/${id}`;
+    },
+    function() {
+        // Do something else
+    });
     }
+
+    
+
+   
+
+}
 
     
 </script>
