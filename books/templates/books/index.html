@@ -18,7 +18,7 @@
 {% block script %}
 <script>
     function clickFunction(name,id){
-       const res = confirm(`Do you want to delete ${name}?`)
+       const res = confirm(`Are you sure you want to delete ${name}?`)
         if(res){
             window.location.href = `delete/${id}`;
         }

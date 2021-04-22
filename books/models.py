@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from books.utils import create_new_ref_number
 
 # Create your models here.
 
 class Category(models.Model):
     class Meta:
-        pass
+        verbose_name_plural = "Categories"
 
     name       = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True) 
@@ -17,11 +18,11 @@ class Category(models.Model):
 class Isbn(models.Model):
     author_title = models.CharField(max_length=255,null=True,blank=True)
     book_title   = models.CharField(max_length=255,null=True,blank=True)
-    isbn_number  = models.IntegerField(max_length=50,auto_created=True,null=True,blank=True)
+    isbn_number  = models.IntegerField(max_length=50,null=True,blank=True,unique=True,default=create_new_ref_number())
 
 
     def __str__(self):
-        return self.book_title
+        return f"ISBN Number: {self.isbn_number}"
 
 class Book(models.Model):
     title       = models.CharField(max_length=255)
