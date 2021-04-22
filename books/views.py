@@ -3,6 +3,7 @@ from .forms import BookForm
 from django.http import HttpResponse
 from .models import Book
 from django.db.models import Count
+
 # Create your views here.
 
 def index(request):

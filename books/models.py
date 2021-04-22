@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from books.utils import create_new_ref_number
 
 # Create your models here.
+class Tag(models.Model):
+    name = models.CharField(max_length=50,null=True,blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Category(models.Model):
     class Meta:
@@ -31,7 +37,8 @@ class Book(models.Model):
     author      = models.ForeignKey(User,null=True,on_delete=models.CASCADE, related_name="book")
 
     isbn        = models.OneToOneField(Isbn,on_delete=models.CASCADE,null=True,blank=True)
-    
+    tag         = models.ForeignKey(Tag,null=True,on_delete=models.CASCADE, related_name="book")
+
     def __str__(self):
         return self.title
  
