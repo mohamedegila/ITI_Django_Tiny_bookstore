@@ -4,7 +4,10 @@
 {% block title %} Home {% endblock %}
 
 {% block body %}
-    <h1 class="mt-3" >Books</h1>
+    {% if request.user.is_authenticated %}
+        <h1>Welcome {{ request.user }}</h1>
+    {%endif%}
+    <h2 class="mt-3" >Books</h2>
     {% for book in books%}
         <h3>{{  book.title }}</h3>
         <p>{{ book.description }}</p>
@@ -18,36 +21,30 @@
 {% block script %}
 <script>
 
-function dialog(message, yesCallback, noCallback) {
-    $('.title').html(message);
-    var dialog = $('#modal_dialog').dialog();
 
-    $('#btnYes').click(function() {
-        dialog.dialog('close');
-        yesCallback();
+function clickFunction(name,id){
+  swal({
+  title: `Are you sure you want to delete ${name}?`,
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+      window.location.href = `delete/${id}`
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
     });
-    $('#btnNo').click(function() {
-        dialog.dialog('close');
-        noCallback();
-    });
-    function clickFunction(name,id){
-      
-
-    dialog(`Are you sure you want to delete ${name}?`,
-    function() {
-         window.location.href = `delete/${id}`;
-    },
-    function() {
-        // Do something else
-    });
-    }
-
-    
-
-   
-
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
 }
+
+
 
     
 </script>
+
 {% endblock %}
