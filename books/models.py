@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from books.utils import create_new_ref_number
-
+import uuid
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=50,null=True,blank=True)
@@ -24,7 +24,7 @@ class Category(models.Model):
 class Isbn(models.Model):
     author_title = models.CharField(max_length=255,null=True,blank=True)
     book_title   = models.CharField(max_length=255,null=True,blank=True)
-    isbn_number  = models.IntegerField(max_length=50,null=True,blank=True,unique=True,default=create_new_ref_number())
+    isbn_number  = models.CharField(max_length=100,null=True,blank=True,unique=True,default=uuid.uuid4)
 
 
     def __str__(self):
