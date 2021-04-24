@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
+from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import generics
+from rest_framework import viewsets
 # Create your views here.
 
 def signup(request):
