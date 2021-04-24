@@ -105,7 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_REDIRECT_URL = "/books/"
+STATIC_URL = '/static/'
 
+
+STATIC_ROOT = "/tmp/django"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
