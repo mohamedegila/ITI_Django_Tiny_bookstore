@@ -7,7 +7,13 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import generics
 from rest_framework import viewsets
+
+class IsViewer(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name="viewers").exists()
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def index(request):
     books      = Book.objects.all()
     serializer = BookSerializer(instance=books,many=True)
@@ -36,7 +42,7 @@ def create(request):
 def edit(request, id):
     try:
         book = Book.objects.get(pk=id)
-        serializer = BookSerializers(data=request.data, instance=book)
+        serializer = BookSerializer(data=request.data, instance=book)
         if serializer.is_valid():
             serializer.save()
             return Response(data={
@@ -77,6 +83,6 @@ class RudPost(generics.RetrieveUpdateDestroyAPIView):
 
 
 #============= requires router object see the main urls.py file ===========
-class PostViewSet(viewsets.ModelViewSet):
+class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer

@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from rest_framework import routers
+from books.api.views import BookViewSet
 
+router = routers.DefaultRouter()
+router.register("", BookViewSet)
 urlpatterns = [
     path("",include("django.contrib.auth.urls")),
     path("",include("accounts.urls")),
     path('admin/', admin.site.urls),
     path('books/', include('books.urls')),
     path('api/books/', include('books.api.urls')),
-    path('api/users/', include('accounts.api.urls'))
+    path('api/users/', include('accounts.api.urls')),
+    # related to the Viewset class in api/views.py
+    path("api/viewsets/books/", include(router.urls))
 ]
