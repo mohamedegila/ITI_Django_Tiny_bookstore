@@ -31,6 +31,40 @@ def create(request):
         },status=status.HTTP_400_REQUEST)
 
 
+
+@api_view(["PUT"])
+def edit(request, id):
+    try:
+        book = Book.objects.get(pk=id)
+        serializer = BookSerializers(data=request.data, instance=book)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data={
+                "success": True,
+                "message": "Book has been updated successfully"
+            }, status=status.HTTP_200_OK)
+    except Book.DoesNotExist:
+        return Response(data={
+            "success": False,
+            "message": "Book not found"
+        }, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(["DELETE"])
+def delete(request, id):
+    try:
+        book = Book.objects.get(pk=id)
+        book.delete()
+        return Response(data={
+            "success": True,
+            "message": "Book has been deleted successfully"
+        }, status=status.HTTP_200_OK)
+    except Book.DoesNotExist:
+        return Response(data={
+            "success": False,
+            "message": "Book not found"
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
 #======================= Class Based (generic & Viewsets) Examples =================
 class IndexPost(generics.ListAPIView):
     queryset = Book.objects.all()
